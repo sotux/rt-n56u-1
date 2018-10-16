@@ -121,6 +121,13 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_TRANSMISSION)	+= libevent
 dir_$(CONFIG_FIRMWARE_INCLUDE_ARIA)		+= libxml2
 dir_$(CONFIG_FIRMWARE_INCLUDE_ARIA)		+= c-ares
 
+# shadowsocks shared libs
+dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)	+= libev
+dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)	+= libpcre
+dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)	+= libsodium
+dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)	+= mbedtls
+dir_$(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS)	+= c-ares
+
 all:
 	for i in $(dir_y) ; do \
 		[ -d $$i ] && \

@@ -1,0 +1,141 @@
+#!/bin/sh
+
+dir_storage="/etc/storage"
+dir_dnsmasq="$dir_storage/dnsmasq"
+user_dnsmasq_conf="$dir_dnsmasq/dnsmasq.conf"
+
+DNSMASQCONFDIR=/tmp/dnsmasq.d
+GFWLIST=gfwlist.conf
+DNSLIST=dns.conf
+FWDDOMAINLIST=forward_domain.conf
+FWDDOMAIN=""
+GFWMODE=`nvram get ss_mode`
+GFWURL=`nvram get ss_gfwlist_url`
+DNS=`nvram get ss_unblocked_sites_dns`
+DNSLOCALPORT=`nvram get ss-tunnel_local_port`
+PORTFWDSVR=`nvram get ss_local_port`
+RETVAL=0
+
+loger() {
+	# 1.alert 2.crit 3.err 4.warn 5.notice 6.info 7.debug
+	logger -st gfwlist-mode[$$] -p$1 $2
+}
+
+usage() {
+	cat <<-EOF
+		Usage: gfwlist-mode [options]
+
+		Valid options are:
+
+		    -on                     enable GFWList mode
+		    -off                    disable GFWList mode
+		    -update                 download GFWList file from server
+		    -h                      show this help message and exit
+EOF
+	exit $1
+}
+
+update_gfwlist() {
+
+	if [ -z $GFWURL ]; then
+		loger 3 "Update GFWList file failed because of invalid URL."
+		return 1
+	fi
+
+	# Download GFWList file
+	wget --no-check-certificate -T 5 -c -O /tmp/$GFWLIST $GFWURL
+	if [ $? -ne 0 ]; then
+		loger 3 "Download $GFWURL failed."
+		return 1
+	fi
+
+	# GFWList mode
+	if [ $GFWMODE = 1 ]; then
+		if [ ! -d $DNSMASQCONFDIR ]; then
+			mkdir $DNSMASQCONFDIR
+		fi
+		mv -f /tmp/$GFWLIST $DNSMASQCONFDIR
+	fi
+
+	return $?
+}
+
+gfwmode_enable() {
+	if [ ! -d $DNSMASQCONFDIR ]; then
+		mkdir $DNSMASQCONFDIR	
+	fi
+
+    # Extract gfwlist file if not exist
+	if [ ! -s $DNSMASQCONFDIR/$GFWLIST ]; then
+		tar xzvf /etc_ro/gfwlist.conf.tar.gz -C $DNSMASQCONFDIR
+	fi
+
+	# Generate dns.conf in $DNSMASQCONFDIR
+	if [ -e $DNSMASQCONFDIR/$DNSLIST ]; then
+		rm -f $DNSMASQCONFDIR/$DNSLIST
+		touch $DNSMASQCONFDIR/$DNSLIST
+	fi
+	for var in $DNS
+	do
+		echo "server=$var" >> $DNSMASQCONFDIR/$DNSLIST
+	done
+
+	# Generate forward_domain.conf in $DNSMASQCONFDIR
+	if [ -e $DNSMASQCONFDIR/$FWDDOMAINLIST ]; then
+		rm -f $DNSMASQCONFDIR/$FWDDOMAINLIST
+		touch $DNSMASQCONFDIR/$FWDDOMAINLIST
+	fi
+	for var in $FWDDOMAIN
+	do
+		echo "server=/$var/127.0.0.1#$DNSLOCALPORT" >> $DNSMASQCONFDIR/$FWDDOMAINLIST
+		echo "ipset=/$var/gfwlist" >> $DNSMASQCONFDIR/$FWDDOMAINLIST
+	done
+	
+	sed -i '/conf-dir=/d' $user_dnsmasq_conf
+	sed -i '/no-resolv/d' $user_dnsmasq_conf
+	echo conf-dir=$DNSMASQCONFDIR >> $user_dnsmasq_conf
+	echo no-resolv >> $user_dnsmasq_conf
+
+	restart_dhcpd
+
+	return $?
+}
+
+gfwmode_disable() {
+	rm -f $DNSMASQCONFDIR/$GFWLIST
+	rm -f $DNSMASQCONFDIR/$DNSLIST
+	rm -f $DNSMASQCONFDIR/$FWDDOMAINLIST
+
+	ipset destroy gfwlist
+
+	sed -i '/conf-dir=/d' $user_dnsmasq_conf
+	sed -i '/no-resolv/d' $user_dnsmasq_conf
+
+	restart_dhcpd
+
+	return $?
+}
+
+if [ $1 == "-on" ]; then
+	gfwmode_enable
+	RETVAL=$?
+	[[ $RETVAL -eq 0 ]] && loger 6 "Enable GFWList Mode successful." || loger 3 "Enable GFWList Mode failed."
+elif [ $1 == "-off" ]; then
+	gfwmode_disable
+	RETVAL=$?
+	[[ $RETVAL -eq 0 ]] && loger 6 "Disable GFWList Mode successful." || loger 3 "Disable GFWList Mode failed."
+elif [ $1 == "-update" ]; then
+	update_gfwlist
+	RETVAL=$?
+	# GFWList mode
+	if [[ $GFWMODE = 1 && $RETVAL -eq 0 ]]; then
+		restart_dhcpd
+        RETVAL=$?
+	fi
+	[[ $RETVAL -eq 0 ]] && loger 6 "Update GFWList file successful." || loger 3 "Update GFWList file failed."
+else
+	usage 0
+	RETVAL=$?
+fi
+
+return $RETVAL
