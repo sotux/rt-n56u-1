@@ -45,6 +45,11 @@ else
 	rm -f $(THISDIR)/$(SRC_NAME)/extensions/libxt_CLASSIFY.*
 	rm -f $(THISDIR)/$(SRC_NAME)/extensions/libxt_IMQ.*
 endif
+ifeq ($(CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS),y)
+	cp -f $(THISDIR)/$(SRC_NAME)/extensions/disabled/libxt_TPROXY.* $(THISDIR)/$(SRC_NAME)/extensions
+else
+	rm -f $(THISDIR)/$(SRC_NAME)/extensions/libxt_TPROXY.*
+endif
 ifdef CONFIG_NETFILTER_XT_MATCH_CONNTRACK
 	cp -f $(THISDIR)/$(SRC_NAME)/extensions/disabled/libxt_conntrack.* $(THISDIR)/$(SRC_NAME)/extensions
 else
