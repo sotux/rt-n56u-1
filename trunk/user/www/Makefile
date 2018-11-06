@@ -15,6 +15,8 @@ DWURL_PATTERN=s/ZVDWURLVZ/$(PROJECT_HOME_URL)/g
 
 WEBUI_NAME=n56u_ribbon_fixed
 
+BOARD_DIR = $(ROOTDIR)/configs/boards/$(CONFIG_FIRMWARE_PRODUCT_ID)
+
 all:
 
 romfs:
@@ -25,6 +27,7 @@ romfs:
 	echo "ASUSTeK" > $(ROMFS_DIR)/www/httpd_check.htm
 	cd $(ROMFS_DIR)/www && ln -sf /opt/share/www/custom custom
 	cp dict/EN.header $(ROMFS_DIR)/www
+	[ -f $(BOARD_DIR)/logo.png ] && cp -f $(BOARD_DIR)/logo.png $(INSTALLDIR)/www/bootstrap/img/logo.png
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_LANG_BR),y)
 	echo "LANG_BR=Brazil" >> $(ROMFS_DIR)/www/EN.header
 	cp dict/BR.dict $(ROMFS_DIR)/www
