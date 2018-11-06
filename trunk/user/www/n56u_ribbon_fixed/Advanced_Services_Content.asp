@@ -29,6 +29,7 @@ $j(document).ready(function() {
 	init_itoggle('lltd_enable');
 	init_itoggle('adsc_enable');
 	init_itoggle('crond_enable', change_crond_enabled);
+	init_itoggle('vlmcsd_enable');
 	init_itoggle('watchdog_cpu');
 	
 });
@@ -68,6 +69,10 @@ function initial(){
 		http_proto_change();
 	}
 	change_crond_enabled();
+
+	if(!found_app_vlmcsd()){
+		showhide_div('div_vlmcsd', 0);
+	}
 }
 
 function applyRule(){
@@ -467,6 +472,20 @@ function change_crond_enabled(){
                                     <table width="100%" cellpadding="4" cellspacing="0" class="table">
                                         <tr>
                                             <th colspan="2" style="background-color: #E3E3E3;"><#Adm_System_misc#></th>
+                                        </tr>
+                                        <tr id="div_vlmcsd">
+                                            <th><#Adm_Svc_vlmcsd#></th>
+                                            <td>
+                                                <div class="main_itoggle">
+                                                    <div id="vlmcsd_enable_on_of">
+                                                        <input type="checkbox" id="vlmcsd_enable_fake" <% nvram_match_x("", "vlmcsd_enable", "1", "value=1 checked"); %><% nvram_match_x("", "vlmcsd_enable", "0", "value=0"); %>>
+                                                    </div>
+                                                </div>
+                                                <div style="position: absolute; margin-left: -10000px;">
+                                                    <input type="radio" name="vlmcsd_enable" id="vlmcsd_enable_1" class="input" value="1" <% nvram_match_x("", "vlmcsd_enable", "1", "checked"); %>/><#checkbox_Yes#>
+                                                    <input type="radio" name="vlmcsd_enable" id="vlmcsd_enable_0" class="input" value="0" <% nvram_match_x("", "vlmcsd_enable", "0", "checked"); %>/><#checkbox_No#>
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th><#Adm_Svc_lltd#></th>

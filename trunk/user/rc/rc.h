@@ -492,6 +492,11 @@ void stop_sshd(void);
 void start_sshd(void);
 void restart_sshd(void);
 #endif
+#if defined(APP_VLMCSD)
+void stop_vlmcsd(void);
+void start_vlmcsd(void);
+void restart_vlmcsd(void);
+#endif
 void start_httpd(int restart_fw);
 void stop_httpd(void);
 void restart_httpd(void);

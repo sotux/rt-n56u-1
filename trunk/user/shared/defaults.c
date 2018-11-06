@@ -56,7 +56,7 @@ struct nvram_pair router_defaults[] = {
 	{ "lan_dns_x", "1" },			/* LAN DNS [static|dhcp] */
 	{ "lan_dns1", "" },			/* LAN DNS1 */
 	{ "lan_dns2", "" },			/* LAN DNS2 */
-	{ "lan_domain", "" },			/* LAN domain name */
+	{ "lan_domain", "lan" },			/* LAN domain name */
 	{ "lan_stp", "1" },			/* LAN spanning tree protocol */
 
 	/* WAN H/W parameters */
@@ -466,6 +466,9 @@ struct nvram_pair router_defaults[] = {
 	{ "dr_staticipaddr_x", "" },
 	{ "dr_staticnetmask_x", "0" },
 	{ "dr_staticgateway_x", "" },
+
+	/* vlmcsd */
+	{ "vlmcsd_enable", "0" },
 
 	/* DHCP server parameters */
 	{ "dhcp_start", DEF_LAN_DHCP_BEG },	/* First assignable DHCP address */
