@@ -61,6 +61,9 @@
 #define RCN_RESTART_TRMD		"restart_trmd"
 #define RCN_RESTART_ARIA		"restart_aria"
 #define RCN_RESTART_VLMCSD		"restart_vlmcsd"
+#define RCN_RESTART_SHADOWSOCKS	"restart_shadowsocks"
+#define RCN_RESTART_SS_TUNNEL	"restart_ss_tunnel"
+#define RCN_GFWLIST_UPD         "update_gfwlist"
 #define RCN_RESTART_REBOOT		"restart_reboot"
 
 ////////////////////////////////////////////////////////////

@@ -846,6 +846,34 @@
 			{0,0,0,0}
 		};
 
+#if defined(APP_SHADOWSOCKS)
+	struct variable variables_ShadowsocksConf[] = {
+			{"ss_enable", "", NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_server", "", NULL, EVM_RESTART_SHADOWSOCKS|EVM_RESTART_SS_TUNNEL},
+			{"ss_key", "", NULL, EVM_RESTART_SHADOWSOCKS|EVM_RESTART_SS_TUNNEL},
+			{"ss_server_port", "", NULL, EVM_RESTART_SHADOWSOCKS|EVM_RESTART_SS_TUNNEL},
+			{"ss_method", "", NULL, EVM_RESTART_SHADOWSOCKS|EVM_RESTART_SS_TUNNEL},
+			{"ss_timeout", "", NULL, EVM_RESTART_SHADOWSOCKS|EVM_RESTART_SS_TUNNEL},
+			{"ss_obfs", "", NULL, EVM_RESTART_SHADOWSOCKS|EVM_RESTART_SS_TUNNEL},
+			{"ss_obfs_param", "", NULL, EVM_RESTART_SHADOWSOCKS|EVM_RESTART_SS_TUNNEL},
+			{"ss_local_port", "", NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_mode", "", NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss-tunnel_enable", "", NULL, EVM_RESTART_SS_TUNNEL},
+			{"ss-tunnel_remote", "", NULL, EVM_RESTART_SS_TUNNEL},
+			{"ss-tunnel_local_port", "", NULL, EVM_RESTART_SS_TUNNEL},
+			{"ss-tunnel_mtu", "", NULL, EVM_RESTART_SS_TUNNEL},
+			{"ss_router_proxy", "", NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_watchcat", "", NULL, FALSE},
+			{"ss_udp", "", NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_reuse_port", "", NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_lower_port_only", "", NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_mtu", "", NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_gfwlist_url", "", NULL, EVM_RESTART_SHADOWSOCKS},
+			{"ss_unblocked_sites_dns", "", NULL, EVM_RESTART_SHADOWSOCKS},
+			{0,0,0,0}
+	};
+#endif
+
 	struct svcLink svcLinks[] = {
 		{"General",			variables_General},
 		{"Storage",			variables_Storage},
@@ -864,9 +892,12 @@
 		{"DeviceSecurity11b",		variables_DeviceSecurity11b},
 		{"WLANAuthentication11a",	variables_WLANAuthentication11a},
 		{"WLANAuthentication11b",	variables_WLANAuthentication11b},
+#if defined(APP_SHADOWSOCKS)
+		{"ShadowsocksConf",		variables_ShadowsocksConf},
+#endif
 		{"LANGUAGE",			variables_Language},
 		{0,0}
-	};
+	};	
 
 	struct evDesc events_desc[] = {
 		{EVM_RESTART_IPV6,		EVT_RESTART_IPV6,		RCN_RESTART_IPV6,	EVM_RESTART_DHCPD|EVM_RESTART_RADV|EVM_RESTART_IPTV|EVM_RESTART_DI|EVM_RESTART_UPNP|EVM_RESTART_FIREWALL|EVM_RESTART_VPNCLI|EVM_RESTART_SWITCH_VLAN|EVM_RESTART_LAN|EVM_RESTART_WAN|EVM_RESTART_MODEM},
@@ -926,12 +957,16 @@
 #if defined(APP_ARIA)
 		{EVM_RESTART_ARIA,		EVT_RESTART_ARIA,		RCN_RESTART_ARIA,	EVM_RESTART_FIREWALL},
 #endif
-#if defined(APP_VLMCSD)
-		{EVM_RESTART_VLMCSD,	EVT_RESTART_VLMCSD,		RCN_RESTART_VLMCSD,	0},
-#endif
 #endif
 #if defined(APP_SMBD) || defined(APP_NMBD)
 		{EVM_RESTART_NMBD,		EVT_RESTART_NMBD,		RCN_RESTART_NMBD,	0},
+#endif
+#if defined(APP_VLMCSD)
+		{EVM_RESTART_VLMCSD,	EVT_RESTART_VLMCSD,		RCN_RESTART_VLMCSD,	0},
+#endif
+#if defined(APP_SHADOWSOCKS)
+		{EVM_RESTART_SHADOWSOCKS,	EVT_RESTART_SHADOWSOCKS,	RCN_RESTART_SHADOWSOCKS,  0},
+		{EVM_RESTART_SS_TUNNEL,		EVT_RESTART_SS_TUNNEL,		RCN_RESTART_SS_TUNNEL,	  0},
 #endif
 		{EVM_RESTART_FIREWALL,		EVT_RESTART_FIREWALL,		RCN_RESTART_FIREWALL,	0},
 		{0,0,0,0}

@@ -266,6 +266,10 @@ EOF
 ### Custom user script
 ### Called after internal iptables reconfig (firewall update)
 
+if [ -f "/tmp/shadowsocks_iptables.save" ]; then
+	sh /tmp/shadowsocks_iptables.save
+fi
+
 EOF
 		chmod 755 "$script_postf"
 	fi

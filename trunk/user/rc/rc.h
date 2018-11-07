@@ -497,6 +497,15 @@ void stop_vlmcsd(void);
 void start_vlmcsd(void);
 void restart_vlmcsd(void);
 #endif
+#if defined(APP_SHADOWSOCKS)
+void stop_ss(void);
+void start_ss(void);
+void restart_ss(void);
+void stop_ss_tunnel(void);
+void start_ss_tunnel(void);
+void restart_ss_tunnel(void);
+void update_gfwlist(void);
+#endif
 void start_httpd(int restart_fw);
 void stop_httpd(void);
 void restart_httpd(void);

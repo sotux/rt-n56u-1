@@ -470,6 +470,34 @@ struct nvram_pair router_defaults[] = {
 	/* vlmcsd */
 	{ "vlmcsd_enable", "0" },
 
+	/* shadowsocks */
+	{ "ss_enable", "0" },
+	{ "ss_server", "127.0.0.1" },
+	{ "ss_key", "Secret" },
+	{ "ss_server_port", "8989" },
+	{ "ss_method", "rc4-md5" },
+	{ "ss_timeout", "60"},
+	{ "ss_obfs", ""},
+	{ "ss_obfs_param", ""},
+
+	{ "ss_local_port", "1080" },
+	{ "ss_mode", "1" }, 			//0=Global, 1=gfwlist
+
+	{ "ss-tunnel_enable", "0" },
+	{ "ss-tunnel_remote", "8.8.4.4:53" },
+	{ "ss-tunnel_local_port", "5353" },
+	{ "ss-tunnel_mtu", "1492" },
+
+	{ "ss_router_proxy", "1" },
+	{ "ss_watchcat", "1" },
+	{ "ss_udp", "1" },
+	{ "ss_reuse_port", "1"},
+	{ "ss_lower_port_only", "0" },	//22-1023
+	{ "ss_mtu", "1492" },
+
+	{ "ss_gfwlist_url", "https://cokebar.github.io/gfwlist2dnsmasq/dnsmasq_gfwlist_ipset.conf" },
+	{ "ss_unblocked_sites_dns", "114.114.114.114"},
+
 	/* DHCP server parameters */
 	{ "dhcp_start", DEF_LAN_DHCP_BEG },	/* First assignable DHCP address */
 	{ "dhcp_end", DEF_LAN_DHCP_END },	/* Last assignable DHCP address */

@@ -250,6 +250,42 @@ void restart_vlmcsd(void){
 }
 #endif
 
+#if defined(APP_SHADOWSOCKS)
+void stop_ss(void){
+	eval("/usr/bin/shadowsocks.sh","stop");
+}
+
+void start_ss(void){
+	int ss_mode = nvram_get_int("ss_enable");
+	if ( ss_mode == 1)
+		eval("/usr/bin/shadowsocks.sh","start");
+}
+
+void restart_ss(void){
+	stop_ss();
+	start_ss();
+}
+
+void stop_ss_tunnel(void){
+	eval("/usr/bin/ss-tunnel.sh","stop");
+}
+
+void start_ss_tunnel(void){
+	int ss_tunnel_mode = nvram_get_int("ss-tunnel_enable");
+	if ( ss_tunnel_mode == 1)
+		eval("/usr/bin/ss-tunnel.sh","start");
+}
+
+void restart_ss_tunnel(void){
+	stop_ss_tunnel();
+	start_ss_tunnel();
+}
+
+void update_gfwlist(void){
+	eval("/usr/bin/gfwlist-mode","-update");
+}
+#endif
+
 void
 start_httpd(int restart_fw)
 {
@@ -449,6 +485,10 @@ start_services_once(int is_ap_mode)
 	}
 #if defined(APP_VLMCSD)
 	start_vlmcsd();
+#endif
+#if defined(APP_SHADOWSOCKS)
+	start_ss();
+	start_ss_tunnel();
 #endif
 	start_lltd();
 	start_watchdog_cpu();
