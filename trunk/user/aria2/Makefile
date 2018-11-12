@@ -1,4 +1,4 @@
-SRC_NAME=aria2-1.15.2
+SRC_NAME=aria2-1.34.0
 
 CFLAGS  += -ffunction-sections -fdata-sections
 CXXFLAGS += -ffunction-sections -fdata-sections
@@ -6,8 +6,13 @@ LDFLAGS += -Wl,--gc-sections
 
 THISDIR = $(shell pwd)
 
-all: config_test
+all: extract_test config_test
 	$(MAKE) -C $(SRC_NAME)
+
+extract_test:
+	( if [ ! -d $(SRC_NAME) ]; then \
+		tar Jxf $(SRC_NAME).tar.xz; \
+	fi )
 
 config_test:
 	( if [ -f ./config_done ]; then \
@@ -18,6 +23,7 @@ config_test:
 
 configure:
 	( cd $(SRC_NAME) ; \
+	PKG_CONFIG_PATH="$(STAGEDIR)/lib/pkgconfig" \
 	./configure \
 		--prefix=/usr \
 		--disable-nls \
@@ -26,8 +32,6 @@ configure:
 		--without-libgmp \
 		--without-libgcrypt \
 		--without-libexpat \
-		--without-libcares \
-		--without-sqlite3 \
 		--without-gnutls \
 		--with-libz \
 		--with-openssl \

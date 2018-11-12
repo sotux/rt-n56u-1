@@ -119,6 +119,7 @@ dir_$(CONFIG_FIRMWARE_INCLUDE_TRANSMISSION)	+= libevent
 
 # aria2 shared libs
 dir_$(CONFIG_FIRMWARE_INCLUDE_ARIA)		+= libxml2
+dir_$(CONFIG_FIRMWARE_INCLUDE_ARIA)		+= c-ares
 
 all:
 	for i in $(dir_y) ; do \
