@@ -3518,8 +3518,13 @@ struct mime_handler mime_handlers[] = {
 	{ "**.css", "text/css", NULL, NULL, do_file, 0 }, // 2012.06 Eagle23
 
 #if defined(APP_ARIA)
-	/* cached font */
+	/* cached font, language resources and manifest */
 	{ "**.woff", "application/font-woff", NULL, NULL, do_file, 0 }, // 2016.01 Volt1
+	{ "**.woff2", "application/font-woff", NULL, NULL, do_file, 0 },
+	{ "**.eot", "application/vnd.ms-fontobject", NULL, NULL, do_file, 0 },
+	{ "**.ttf", "application/octet-stream", NULL, NULL, do_file, 0 },
+	{ "**.txt", "text/plain", NULL, NULL, do_file, 0 },
+	{ "**.manifest", "text/plain", NULL, NULL, do_file, 0 },
 #endif
 
 	/* cached images */

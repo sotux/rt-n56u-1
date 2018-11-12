@@ -1,4 +1,5 @@
 SRC_NAME=aria2-1.34.0
+SRC_ARIA_NG_NAME=AriaNg-0.5.0
 
 CFLAGS  += -ffunction-sections -fdata-sections
 CXXFLAGS += -ffunction-sections -fdata-sections
@@ -12,6 +13,9 @@ all: extract_test config_test
 extract_test:
 	( if [ ! -d $(SRC_NAME) ]; then \
 		tar Jxf $(SRC_NAME).tar.xz; \
+	fi )
+	( if [ ! -d $(THISDIR)/ariaweb ]; then \
+		unzip -qq $(SRC_ARIA_NG_NAME).zip -d ariaweb; \
 	fi )
 
 config_test:
@@ -50,13 +54,13 @@ clean:
 	if [ -f $(SRC_NAME)/Makefile ] ; then \
 		$(MAKE) -C $(SRC_NAME) distclean ; \
 	fi ; \
+	rm -rf ariaweb
 	rm -f config_done
 	rm -rf install
 
 romfs:
 ifeq ($(CONFIG_FIRMWARE_INCLUDE_ARIA_WEB_CONTROL),y)
 	cp -rf $(THISDIR)/ariaweb $(INSTALLDIR)/www
-	cd $(INSTALLDIR)/www/ariaweb && ln -sf /mnt/aria/config/configuration.js configuration.js
 endif
 	$(ROMFSINST) $(THISDIR)/$(SRC_NAME)/src/aria2c /usr/bin/aria2c
 	$(ROMFSINST) -p +x /usr/bin/aria.sh
