@@ -19,6 +19,7 @@ config_test:
 
 configure:
 	( cd $(SRC_NAME) ; \
+	LIBS="-lpthread -lm" \
 	./configure \
 		--prefix=/usr \
 		--disable-documentation \
