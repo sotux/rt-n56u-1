@@ -1,5 +1,5 @@
-SRC_NAME=mbedtls-2.7.4
-SRC_URL=https://tls.mbed.org/download/mbedtls-2.7.4-apache.tgz
+SRC_NAME=mbedtls-2.13.0
+SRC_URL=https://tls.mbed.org/download/start/mbedtls-2.13.0-apache.tgz
 
 all: download_test extract_test config_test
 	$(MAKE) -C $(SRC_NAME)/build
