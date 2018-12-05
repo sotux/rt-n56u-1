@@ -13,6 +13,7 @@ download_test:
 extract_test:
 	( if [ ! -d $(THISDIR)/$(SRC_NAME) ]; then \
 		unzip -qq $(SRC_NAME).zip; \
+		patch -d $(SRC_NAME) -p1 -i ../0001-remove-lto-flag.patch; \
 	fi )
 
 romfs:
