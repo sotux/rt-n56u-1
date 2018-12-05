@@ -1,5 +1,5 @@
 SRC_NAME=aria2-1.34.0
-SRC_ARIA_NG_NAME=AriaNg-0.5.0
+SRC_ARIA_NG_NAME=AriaNg-1.0.0
 
 CFLAGS  += -ffunction-sections -fdata-sections
 CXXFLAGS += -ffunction-sections -fdata-sections
