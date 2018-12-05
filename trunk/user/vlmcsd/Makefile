@@ -1,6 +1,6 @@
 THISDIR = $(shell pwd)
-SRC_NAME = vlmcsd-master
-SRC_URL = https://github.com/hanwckf/vlmcsd/archive/master.zip
+SRC_NAME = vlmcsd-svn1112
+SRC_URL = https://codeload.github.com/Wind4/vlmcsd/zip/svn1112
 
 all: download_test extract_test
 	$(MAKE) -C $(SRC_NAME) CC=$(CONFIG_CROSS_COMPILER_ROOT)/bin/mipsel-linux-uclibc-gcc
