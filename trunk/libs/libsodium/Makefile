@@ -27,7 +27,8 @@ configure:
 	./configure \
 		--prefix=$(STAGEDIR) \
 		--host=$(HOST_TARGET) \
-		--build=$(HOST_BUILD) ; \
+		--build=$(HOST_BUILD) \
+		--disable-ssp ; \
 	)
 
 clean:
