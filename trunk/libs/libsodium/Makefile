@@ -28,6 +28,7 @@ configure:
 		--prefix=$(STAGEDIR) \
 		--host=$(HOST_TARGET) \
 		--build=$(HOST_BUILD) \
+		--without-pthreads \
 		--disable-ssp ; \
 	)
 
