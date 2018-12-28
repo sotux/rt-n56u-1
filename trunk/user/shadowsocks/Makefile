@@ -42,7 +42,6 @@ clean:
 
 romfs:
 	chmod -R +x scripts/
-	$(ROMFSINST) $(THISDIR)/gfwlist_mode.txt /etc_ro/gfwlist_mode.txt
 	$(ROMFSINST) $(THISDIR)/gfwlist.conf.tar.gz /etc_ro/gfwlist.conf.tar.gz
 	$(ROMFSINST) $(THISDIR)/obfs-local /usr/bin/obfs-local
 	$(ROMFSINST) $(THISDIR)/scripts/ /usr/bin/

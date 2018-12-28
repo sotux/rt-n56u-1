@@ -25,7 +25,7 @@ loger() {
 }
 
 get_arg_reuse_port() {
-    if [ "$ss_reuse_port" = "1"]; then
+    if [ "$ss_reuse_port" = "1" ]; then
         echo "true"
     else
         echo "false"
@@ -45,10 +45,11 @@ get_arg_out() {
 }
 
 get_wan_bp_list() {
-	wanip="$(nvram get wan_ipaddr)"
-	[ -n "$wanip" ] && [ "$wanip" != "0.0.0.0" ] && bp="-b $wanip" || bp=""
 	if [ "$ss_mode" = "1" ]; then
-		bp=${bp}" -B /etc_ro/gfwlist_mode.txt"
+		bp="-b 0.0.0.0/1 128.0.0.0/1"
+	else
+		wanip="$(nvram get wan_ipaddr)"
+		[ -n "$wanip" ] && [ "$wanip" != "0.0.0.0" ] && bp="-b $wanip" || bp=""
 	fi
 	echo "$bp"
 }
